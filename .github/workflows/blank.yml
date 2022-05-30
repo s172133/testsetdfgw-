@@ -1,0 +1,32 @@
+
+name: Dispatcher
+
+on:
+  workflow_dispatch:
+
+permissions: write-all
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+
+      # - name: dispatch
+      #   run: curl -X POST \
+      #        -H "Accept:application/vnd.github.v3+json" \
+      #        -H 'Authorization:token ${{ github.token }}' \
+      #        'https://api.github.com/repos/awazevr/devops-testing-workflow/actions/workflows/25569435/dispatches' \
+      #        -d '{"event_type":"semantic-release"}'
+      - name: github cli list
+        run: gh workflow list --all
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      
+      - name: github cli dispatch
+        run: gh workflow run workflow.yml
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
